@@ -5,9 +5,9 @@
 % I Semestre 2020
 % Prof.-Ing. Daniel Kohkemper, M.Sc.
 %
-% atan2 implementation file
-% File:   ac_atan2.m
-% Brief:  Implementation of atan2 function
+% arctan2 implementation file
+% File:   ac_arctan2.m
+% Brief:  Implementation of arctan2 function
 % Input:  x coordinate, y coordinate of complex number
 % Output: theta: angle of vector
 %
@@ -17,17 +17,32 @@
 % Emmanuel Murillo
 %
 
-function ac_atan2(x, y)
-division = y / x;
+function ac_arctan2(x, y)
 
-if x<0 && y>0
-    theta = atan(division) + pi;
-elseif x<0 && y<0
-    theta = atan(division) - pi;
-else
-    theta = atan(division);
-endif
+  if x<0 && y>=0
+    theta = arctan(x, y) + pi;
+  elseif x<0 && y<0
+    theta = arctan(x, y) - pi;
+  elseif y>0 && x == 0
+    theta = pi / 2;
+  elseif x == 0 && y == 0
+    theta = 0;
+  else
+    theta = arctan(x, y);
+  endif
 printf("%d", theta);
 endfunction
 
-ac_atan2(-3,6);
+
+function arctan(x, y)
+  numerador = x * y;
+  x_cuadrado = x * x;
+  op1 = bitshift (x_cuadrado, -2);
+  op2 = bitshift (x_cuadrado, -5);
+  denominador = (y * y) + op1 + op2;
+
+  resultado = numerador / denominador;
+  printf("%d", resultado);
+endfunction
+
+arctan(3, 6);
