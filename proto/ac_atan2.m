@@ -15,7 +15,7 @@
 %Joseph Valenciano
 % Erick Blanco
 % Emmanuel Murillo
-%
+%Josue Chaves 
 
 function ac_arctan2(x, y)
 
@@ -25,6 +25,8 @@ function ac_arctan2(x, y)
     theta = arctan(x, y) - pi;
   elseif y>0 && x == 0
     theta = pi / 2;
+  elseif y<0 && x == 0
+    theta = -pi / 2;
   elseif x == 0 && y == 0
     theta = 0;
   else
@@ -34,15 +36,15 @@ printf("%d", theta);
 endfunction
 
 
-function arctan(x, y)
+function resultado = arctan(x, y)
+
   numerador = x * y;
   x_cuadrado = x * x;
   op1 = bitshift (x_cuadrado, -2);
   op2 = bitshift (x_cuadrado, -5);
   denominador = (y * y) + op1 + op2;
-
   resultado = numerador / denominador;
-  printf("%d", resultado);
+  return;
 endfunction
 
-arctan(3, 6);
+ac_arctan2(3, 6);
