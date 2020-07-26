@@ -1,6 +1,6 @@
-% Instituto Tecnológico de Costa Rica
-% Centro Académico Alajuela
-% Esuela de Ingeniería en Computación
+% Instituto TecnolÃ³gico de Costa Rica
+% Centro AcadÃ©mico Alajuela
+% Esuela de IngenierÃ­a en ComputaciÃ³n
 % IC-3101 Arquitectura de Computadores
 % I Semestre 2020
 % Prof.-Ing. Daniel Kohkemper, M.Sc.
@@ -14,29 +14,31 @@
 % Erick Blanco
 % Emmanuel Murillo
 %Josue Chaves
+%
 clc
 clear
 
-% Declare space for arrays
-idx_array   = zeros(1,73);
-cos_array   = zeros(1,73);
-sin_array   = zeros(1,73);
-theta_array = zeros(1,73);
-
-    #archivo = fopen('Angulos.txt', 'w');
+% Open file for output data
+fid = fopen('output.txt', 'w');
     
     for idx = 1 : 1 : 73
-      idx_array(idx) = (idx-1) * 5 * pi / 180;
-      cos_array(idx) = floor(cos(idx_array(idx)) * 4096);
-      sin_array(idx) = floor(sin(idx_array(idx)) * 4096);
+        angle   = (idx-1) * 5 * pi / 180;
+        cos_val = round(cos(angle) * 8192);
+        sin_val = round(sin(angle) * 8192);
+        
+        % Call ac_atan2 function
+        [theta, octant] = ac_atan2(cos_val, sin_val);
+        
+%         Write output to prompt
+        #fprintf("Octant = %d; X = %5d ; Y = %5d; Angle: %3d;  theta = %7d\n", ...
+            #octant, cos_val, sin_val, (idx-1) * 5, theta);
+        
+%         fprintf("%d;%d\n", cos_val, sin_val);
+        
+        % Write output to file
+        fprintf(fid, "Octant = %d; X = %5d ; Y = %5d; Angle: %3d;  theta = %7d\n", ...
+            octant, cos_val, sin_val, (idx-1) * 5, theta);
+    end
     
-      theta_array(idx) = ac_atan2(cos_array(idx), sin_array(idx));
-      
- 
-      #fprintf(archivo, "Angulo: %d theta: %d\n" , (idx-1) * 5, theta_array(idx));
-      printf("Angulo: %d theta: %d\n" , (idx-1) * 5, theta_array(idx));
-     
-end
-
-#fclose(archivo);
+fclose(fid);
 
