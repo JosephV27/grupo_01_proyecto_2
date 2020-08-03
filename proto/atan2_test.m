@@ -13,7 +13,7 @@
 % Joseph Valenciano
 % Erick Blanco
 % Emmanuel Murillo
-%Josue Chaves
+% Josue Chaves
 %
 clc
 clear
@@ -29,9 +29,9 @@ fid = fopen('output.txt', 'w');
         % Call ac_atan2 function
         [theta, octant] = ac_atan2(cos_val, sin_val);
         
-%         Write output to prompt
-        #fprintf("Octant = %d; X = %5d ; Y = %5d; Angle: %3d;  theta = %7d\n", ...
-            #octant, cos_val, sin_val, (idx-1) * 5, theta);
+        % Write output to prompt
+        fprintf("Octant = %d; X = %5d ; Y = %5d; Angle: %3d;  theta = %7d\n", ...
+            octant, cos_val, sin_val, (idx-1) * 5, theta);
         
 %         fprintf("%d;%d\n", cos_val, sin_val);
         
@@ -42,3 +42,12 @@ fid = fopen('output.txt', 'w');
     
 fclose(fid);
 
+% EVALUACIÓN
+%
+% Implementación de Solución    5/5 de 60%
+%
+% Resultados Correctos          5/5 de 30%
+%
+% Orden y Estilo de Código      5/5 de 10%
+%
+% Nota en Prototipado:                100
