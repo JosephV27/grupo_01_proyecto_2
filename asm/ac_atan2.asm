@@ -28,16 +28,12 @@ op_denoQ DWORD ?
 denominatorI DWORD ?
 denominatorQ DWORD ?
 
-resultI DWORD ?
-resultQ DWORD ?
-
 abs_x DWORD ?
-abx_y DWORD ?
+abs_y DWORD ?
 
 theta DWORD ?
 octant DWORD ?
 
-num DWORD -2
 
 .code 
 ac_atan2 PROC 
@@ -97,31 +93,34 @@ mov eax, op_denoQ
 SHR eax, 15
 mov denominatorQ, eax
 ;-----------------abs_x
-mov eax, num
-call DumpRegs
-.IF eax > 0
+mov eax, x
+cmp eax, 0
+JNS L2 ;check if the sign flag is not active
+L1: 
+	neg eax
 	mov abs_x, eax
-.else 
-	neg eax 
-	call DumpRegs
+L2: 
 	mov abs_x, eax
-.ENDIF 
-;-----------------abs_x
-;.IF y<0 
-;	mov eax,y
-;	neg eax
-;	mov abs_y, eax
-;.else 
-;	mov eax, y
-;	mov abs_y, eax
-;ENDIF 
+;-----------------abs_y
+mov eax, y
+cmp eax, 0
+JNS L4 ;check if the sign flag is not active
+L3: 
+	neg eax
+	mov abs_y, eax
+L4: 
+	mov abs_y, eax
 ;-----------------first octant
-;.IF abs_x > abs_y && x>0 && y>0
-;	mov eax, numerator
-;	mov ebx, denominatorI
-;	idiv ebx
-;	mov theta, eax	
-;ENDIF
+mov eax, abs_x
+mov ebx, x
+mov edx, y
+.IF (eax > abs_y) && (ebx > 0) && (edx > 0)
+	mov eax, numerator
+	mov ebx, denominatorI
+	idiv ebx
+	mov theta, eax	
+.ENDIF
+
 ret
 ac_atan2 ENDP
 END ac_atan2 
