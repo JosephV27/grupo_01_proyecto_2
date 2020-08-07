@@ -6,12 +6,12 @@ includelib c:\Irvine\user32.lib
 .data
 ;constants
 PI DWORD 102944
-PI_MEDIO DWORD 51472
+PI_MEDIOS DWORD 51472
 PI_CUARTOS DWORD 25736
 TRES_PI_CUARTOS DWORD 77208
 
-x DWORD 8161
-y DWORD 714
+x DWORD -714
+y DWORD 8161
 
 numerator DWORD ?
 y_square DWORD ?
@@ -41,7 +41,7 @@ xor eax, eax
 xor ebx, ebx
 xor ecx, ecx 
 xor edx, edx
-call DumpRegs
+
 
 ;-------------numerator
 mov eax, x
@@ -110,16 +110,199 @@ L3:
 	mov abs_y, eax
 L4: 
 	mov abs_y, eax
-;-----------------first octant
+;-----------------move vars to registers
 mov eax, abs_x
 mov ebx, x
 mov edx, y
-.IF (eax > abs_y) && (ebx > 0) && (edx > 0)
+;-----------------0 degrees
+cmp ebx, 0 ; x > 0
+JL P1
+cmp edx, 0 ; y == 0
+JNE P1
+mov eax, 0
+mov theta, eax
+;-----------------First octant
+P1:
+	cmp eax, abs_y ; abs_x > abx_y
+	JLE P2
+	cmp ebx, 0 ; x > 0
+	JL P2
+	cmp edx, 0 ; y > 0
+	JL P2
 	mov eax, numerator
 	mov ebx, denominatorI
+	xor edx, edx
 	idiv ebx
 	mov theta, eax	
-.ENDIF
+;-----------------45 degrees
+P2:
+	cmp eax, abs_y ; abx_x == abx_y
+	JNE P3
+	cmp ebx, 0 ; x > 0
+	JL P3
+	cmp edx, 0 ; y > 0
+	JL P3
+	mov eax, PI_CUARTOS
+	mov theta, eax
+;-----------------Second octant
+P3:
+	cmp eax, abs_y ; abs_x < abs_y
+	JGE P4
+	cmp ebx, 0 ; x > 0
+	JLE P4
+	cmp edx, 0 ; y > 0
+	JLE P4
+	mov eax, numerator
+	mov ebx, denominatorQ
+	xor edx, edx
+	idiv ebx
+	mov edx, PI_MEDIOS 
+	sub edx, eax
+	mov theta, edx
+;-----------------90 Degrees
+P4:
+	cmp ebx, 0
+	JNE P5
+	cmp edx, 0 ; y > 0
+	JL P5
+	mov eax, PI_MEDIOS
+	mov theta, eax
+;-----------------Third octant
+P5:
+	cmp eax, abs_y ; abs_x < abs_y
+	JGE P6
+	cmp ebx, 0 ; x < 0
+	JGE P6
+	cmp edx, 0 ; y > 0
+	JLE P6
+	mov eax, numerator
+	mov ebx, denominatorQ
+	xor edx, edx
+	idiv ebx
+	mov edx, PI_MEDIOS 
+	sub edx, eax
+	mov theta, edx
+;-----------------135 Degrees
+P6:
+	cmp eax, abs_y ; abx_x == abx_y
+	JNE P7
+	cmp ebx, 0 ; x < 0
+	JGE P7
+	cmp edx, 0 ; y > 0
+	JLE P7
+	mov eax, TRES_PI_CUARTOS
+	mov theta, eax
+;-----------------Fourth octant
+P7:
+	cmp eax, abs_y ; abs_x > abx_y
+	JLE P8
+	cmp ebx, 0 ; x < 0
+	JGE P8
+	cmp edx, 0 ; y > 0
+	JLE P8
+	mov eax, numerator
+	mov ebx, denominatorI
+	xor edx, edx
+	idiv ebx
+	mov edx, PI
+	add edx, eax
+	mov theta, edx
+;-----------------Fifth octant
+P8:
+	cmp eax, abs_y ; abs_x > abx_y
+	JLE P9
+	cmp ebx, 0 ; x < 0
+	JGE P9
+	cmp edx, 0 ; y < 0
+	JGE P9
+	mov eax, numerator
+	mov ebx, denominatorI
+	xor edx, edx
+	idiv ebx
+	mov edx, PI
+	sub eax, edx ; revisar
+	mov theta, eax
+;----------------- -135 Degrees
+P9:
+	cmp eax, abs_y ; abx_x == abx_y
+	JNE P10
+	cmp ebx, 0 ; x < 0
+	JGE P10
+	cmp edx, 0 ; y < 0
+	JGE P10
+	mov eax, TRES_PI_CUARTOS
+	neg eax
+	mov theta, eax
+;-----------------Sixth octant
+P10:
+	cmp eax, abs_y ; abs_x < abs_y
+	JGE P11
+	cmp ebx, 0 ; x < 0
+	JGE P11
+	cmp edx, 0 ; y < 0
+	JGE P11
+	mov eax, numerator
+	mov ebx, denominatorQ
+	xor edx, edx
+	idiv ebx
+	mov edx, PI_MEDIOS 
+	neg edx
+	sub edx, eax
+	mov theta, edx
+;----------------- -90 Degrees	
+P11:
+	cmp ebx, 0 ; x == 0
+	JNE P12
+	cmp edx, 0 ; y < 0
+	JGE P12
+	mov eax, PI_MEDIOS
+	neg eax 
+	mov theta, eax
+;-----------------Seventh octant
+P12:
+	cmp eax, abs_y ; abs_x < abs_y
+	JGE P13
+	cmp ebx, 0 ; x > 0
+	JLE P13
+	cmp edx, 0 ; y < 0
+	JGE P13
+	mov eax, numerator
+	mov ebx, denominatorQ
+	xor edx, edx
+	idiv ebx
+	mov edx, PI_MEDIOS 
+	neg edx
+	sub edx, eax
+	mov theta, edx
+;----------------- -45 Degrees	
+P13:
+	cmp eax, abs_y ; abx_x == abx_y
+	JNE P14
+	cmp ebx, 0 ; x > 0
+	JLE P14
+	cmp edx, 0 ; y < 0
+	JGE P14
+	mov eax, PI_CUARTOS
+	neg eax
+	mov theta, eax
+;-----------------eighth octant
+P14:
+	cmp eax, abs_y ; abs_x > abx_y
+	JLE P15
+	cmp ebx, 0 ; x > 0
+	JLE P15
+	cmp edx, 0 ; y < 0
+	JGE P15
+	mov eax, numerator
+	mov ebx, denominatorI
+	xor edx, edx
+	idiv ebx
+	mov theta, eax	
+;-----------------180 Degrees
+P15:
+	mov eax, PI
+	mov theta, eax
+
 
 ret
 ac_atan2 ENDP
