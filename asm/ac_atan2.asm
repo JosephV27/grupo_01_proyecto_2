@@ -2,6 +2,7 @@ include c:\Irvine\Irvine32.inc
 includelib c:\Irvine\Irvine32.lib
 includelib c:\Irvine\Kernel32.lib
 includelib c:\Irvine\user32.lib
+INCLUDE atan2.inc
 
 .data
 ;constants
@@ -10,8 +11,8 @@ PI_MEDIOS DWORD 51472
 PI_CUARTOS DWORD 25736
 TRES_PI_CUARTOS DWORD 77208
 
-x DWORD -714
-y DWORD 8161
+;x DWORD -714
+;y DWORD 8161
 
 numerator DWORD ?
 y_square DWORD ?
@@ -36,7 +37,7 @@ octant DWORD ?
 
 
 .code 
-ac_atan2 PROC 
+ac_atan2 PROC, x:DWORD, y:DWORD
 xor eax, eax
 xor ebx, ebx
 xor ecx, ecx 
@@ -176,9 +177,11 @@ P5:
 	cmp edx, 0 ; y > 0
 	JLE P6
 	mov eax, numerator
+	neg eax
 	mov ebx, denominatorQ
 	xor edx, edx
 	idiv ebx
+	neg eax
 	mov edx, PI_MEDIOS 
 	sub edx, eax
 	mov theta, edx
@@ -300,10 +303,16 @@ P14:
 	mov theta, eax	
 ;-----------------180 Degrees
 P15:
+	cmp ebx, 0 ; x < 0
+	JGE P16 
+	cmp edx, 0 ; y == 0
+	JNE P16
 	mov eax, PI
 	mov theta, eax
 
+P16:
+	NOP
 
 ret
 ac_atan2 ENDP
-END ac_atan2 
+END 
