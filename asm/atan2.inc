@@ -1,3 +1,4 @@
+Read_Values PROTO
 ac_atan2 PROTO, x:DWORD, y:DWORD
-ReadFile PROTO
+Write_Values PROTO
 main PROTO
