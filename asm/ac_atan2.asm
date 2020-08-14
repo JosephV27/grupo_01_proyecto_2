@@ -3,7 +3,16 @@ include c:\Irvine\Macros.inc
 includelib c:\Irvine\Irvine32.lib
 includelib c:\Irvine\Kernel32.lib
 includelib c:\Irvine\user32.lib
-INCLUDE atan2.inc
+INCLUDE ac_atan2.inc
+; ------------------------------------------------------
+; Students: 
+;				Joseph Valenciano
+;				Erick Blanco 
+;				Emmanuel Murillo 
+;				Josue Chaves
+; ------------------------------------------------------
+
+TITLE Programa atan2
 
 .data
 ;constants
@@ -12,7 +21,7 @@ PI_MEDIOS DWORD 51472
 PI_CUARTOS DWORD 25736
 TRES_PI_CUARTOS DWORD 77208
 
-arreglo DWORD 73 DUP(?)
+array DWORD 73 DUP(?)
 count DWORD 4
 
 numerator DWORD ?
@@ -34,8 +43,6 @@ abs_x DWORD ?
 abs_y DWORD ?
 
 theta DWORD ?
-octant DWORD ?
-
 
 .code 
 ac_atan2 PROC, x:DWORD, y:DWORD
@@ -115,11 +122,8 @@ JL P1
 cmp y, 0 ; y == 0
 JNE P1
 mov eax, 0
-;mov theta, eax
-mov esi, offset arreglo
+mov esi, offset array
 mov [esi], eax
-;mov eax, [esi]
-;call writeint
 ;-----------------First octant
 P1:
 	mov eax, abs_x
@@ -133,14 +137,12 @@ P1:
 	mov ebx, denominatorI
 	xor edx, edx
 	idiv ebx
-	;mov theta, eax
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------45 degrees
 P2:
 	mov eax, abs_x
@@ -151,15 +153,12 @@ P2:
 	cmp y, 0 ; y > 0
 	JL P3
 	mov eax, PI_CUARTOS
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Second octant
 P3:
 	mov eax, abs_x
@@ -177,14 +176,12 @@ P3:
 	sub edx, eax
 	mov theta, edx
 	mov eax, edx
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------90 Degrees
 P4:
 	mov eax, abs_x
@@ -193,14 +190,12 @@ P4:
 	cmp y, 0 ; y > 0
 	JL P5
 	mov eax, PI_MEDIOS
-	;mov theta, eax
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Third octant
 P5:
 	mov eax, abs_x
@@ -220,14 +215,12 @@ P5:
 	sub edx, eax
 	mov theta, edx
 	mov eax, edx
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------135 Degrees
 P6:
 	mov eax, abs_x
@@ -238,15 +231,12 @@ P6:
 	cmp y, 0 ; y > 0
 	JLE P7
 	mov eax, TRES_PI_CUARTOS
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Fourth octant
 P7:
 	mov eax, abs_x
@@ -266,14 +256,12 @@ P7:
 	add edx, eax
 	mov theta, edx
 	mov eax, edx
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Fifth octant
 P8:
 	mov eax, abs_x
@@ -289,15 +277,12 @@ P8:
 	idiv ebx
 	mov edx, PI
 	sub eax, edx
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;----------------- -135 Degrees
 P9:
 	mov eax, abs_x
@@ -309,15 +294,12 @@ P9:
 	JGE P10
 	mov eax, TRES_PI_CUARTOS
 	neg eax
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Sixth octant
 P10:
 	mov eax, abs_x
@@ -336,14 +318,12 @@ P10:
 	sub edx, eax
 	mov theta, edx
 	mov eax, edx
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;----------------- -90 Degrees	
 P11:
 	mov eax, abs_x
@@ -353,15 +333,12 @@ P11:
 	JGE P12
 	mov eax, PI_MEDIOS
 	neg eax 
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------Seventh octant
 P12:
 	mov eax, abs_x
@@ -382,14 +359,12 @@ P12:
 	sub edx, eax
 	mov theta, edx
 	mov eax, edx
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;----------------- -45 Degrees	
 P13:
 	mov eax, abs_x
@@ -401,15 +376,12 @@ P13:
 	JGE P14
 	mov eax, PI_CUARTOS
 	neg eax
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------eighth octant
 P14:
 	mov eax, abs_x
@@ -425,15 +397,12 @@ P14:
 	xor edx, edx
 	idiv ebx
 	neg eax
-	;mov theta, eax	
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 ;-----------------180 Degrees
 P15:
 	mov eax, abs_x
@@ -442,23 +411,22 @@ P15:
 	cmp y, 0 ; y == 0
 	JNE P16
 	mov eax, PI
-	;mov theta, eax
-
-	mov esi, offset arreglo
+	;move theta to array
+	mov esi, offset array
 	mov edx, count
 	mov [esi+edx], eax
-	;mov eax, [esi+edx]
 	add edx, 4
 	mov count, edx
-	;call writeint
 
 P16:
 	NOP
 
+;last number
 cmp ecx, 1
 jne P17
 
-mov esi, offset arreglo
+;move the array to use in write_values
+mov esi, offset array
 INVOKE Write_Values
 
 pop esi
@@ -466,9 +434,6 @@ xor ecx, ecx
 
 P17:
 	NOP
-
-
-
 
 ret
 ac_atan2 ENDP
