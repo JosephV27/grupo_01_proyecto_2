@@ -3,10 +3,18 @@ include c:\Irvine\Macros.inc
 includelib c:\Irvine\Irvine32.lib
 includelib c:\Irvine\Kernel32.lib
 includelib c:\Irvine\user32.lib
-include atan2.inc
+include ac_atan2.inc
+; ------------------------------------------------------
+; Students: 
+;				Joseph Valenciano
+;				Erick Blanco 
+;				Emmanuel Murillo 
+;				Josue Chaves
+; ------------------------------------------------------
+
+TITLE Programa principal
 
 .data
-arreglo1 DWORD ?
 
 .code 
 main PROC 
