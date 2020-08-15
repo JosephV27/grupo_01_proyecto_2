@@ -152,6 +152,9 @@
   <ItemGroup>
     <None Include="ac_atan2.inc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_data.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
