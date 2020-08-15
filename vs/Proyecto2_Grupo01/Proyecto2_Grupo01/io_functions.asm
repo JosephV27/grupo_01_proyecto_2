@@ -17,7 +17,7 @@ TITLE Programa para leer y escribir archivos
 BUFFER_SIZE = 1000
 .data
 buffer BYTE BUFFER_SIZE DUP(?)
-filename BYTE "input_data.txt"
+filename BYTE "input_data.txt",0
 fileHandle  HANDLE ?
 x DWORD ?
 y DWORD ?
