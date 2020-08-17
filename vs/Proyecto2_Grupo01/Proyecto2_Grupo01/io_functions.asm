@@ -212,7 +212,7 @@ loopArray:
     ;write the number into the file
     mov eax, out_FileHandle  
     lea edx, offset numberstring 
-    mov ecx, 10
+    mov ecx, 7
     call WriteToFile
 
     ;write the new line
